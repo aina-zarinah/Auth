@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Login</title>
+    <style>
+      body {
+        background: linear-gradient(to bottom, #ffffff, #9dd4f7);
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <br />
+    <br />
+    <div class="container" style="max-width: 500px">
+      <form
+        name="login_form"
+        id="login_form"
+        method="post"
+        action="#"
+        enctype="multipart/form-data"
+      >
+        <h2 class="text-center">Login</h2>
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            name="login_email"
+            id="login_email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="login_password"
+            id="login_password"
+            class="form-control"
+            placeholder="Enter your password"
+          />
+        </div>
+        <button type="button" id="login" name="login" class="btn btn-success">
+          Login
+        </button>
+      </form>
+    </div>
+  </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+    } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpJVV4OPIkIfQso0BSPh65cypvNcAlQUM",
+      authDomain: "auth-b9c74.firebaseapp.com",
+      databaseURL: "https://auth-b9c74-default-rtdb.firebaseio.com",
+      projectId: "auth-b9c74",
+      storageBucket: "auth-b9c74.appspot.com",
+      messagingSenderId: "792826652850",
+      appId: "1:792826652850:web:ee7fc32c6bf41cecbb41ab",
+      measurementId: "G-LJXW2RPHP9",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    console.log(app);
+
+    //----- Login code start
+    document.getElementById("login").addEventListener("click", function () {
+      var email = document.getElementById("login_email").value;
+      var password = document.getElementById("login_password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          alert(user.email + " Login successful!");
+          window.location.href = "view.html";
+
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          alert(errorMessage);
+        });
+    });
+    //----- End
+  </script>
+</html>

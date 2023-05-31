@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Books</title>
+    <style>
+      body {
+        background: linear-gradient(to bottom, #ffffff, #9dd4f7);
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <br />
+    <br />
+    <br />
+    <h2 class="text-center">Books</h2>
+    <br />
+    <br />
+    <div style="text-align: center">
+      <a href="insert.html" style="display: block; width: 1850px"
+        >Borrow Here!</a
+      >
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Book Title</th>
+            <th>Book Number</th>
+            <th>Borrowed By</th>
+            <th>Section</th>
+            <th>Student Number</th>
+          </tr>
+        </thead>
+        <tbody id="tbody1">
+          <!-- <tr>
+                       <td>2</td>
+                       <td>tacv</td>
+                       <td>10</td>
+                       <td>B</td>
+                       <td>male</td>
+                   </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+    <!--Firebase Libraries-->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+
+    <!-- CONFIGURATION -->
+    <script id="MainScript">
+      var firebaseConfig = {
+        apiKey: "AIzaSyCpJVV4OPIkIfQso0BSPh65cypvNcAlQUM",
+        authDomain: "auth-b9c74.firebaseapp.com",
+        databaseURL: "https://auth-b9c74-default-rtdb.firebaseio.com",
+        projectId: "auth-b9c74",
+        storageBucket: "auth-b9c74.appspot.com",
+        messagingSenderId: "792826652850",
+        appId: "1:792826652850:web:ee7fc32c6bf41cecbb41ab",
+        measurementId: "G-LJXW2RPHP9",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Get all data
+      function SelectAllData() {
+        firebase
+          .database()
+          .ref("Borrowers")
+          .once("value", function (AllRecords) {
+            AllRecords.forEach(function (CurrentRecord) {
+              var namebox = CurrentRecord.val().Name;
+              var rollbox = CurrentRecord.val().StudentNo;
+              var sectionbox = CurrentRecord.val().Section;
+              var btitle = CurrentRecord.val().BookTitle;
+              var bnumber = CurrentRecord.val().BookNumber;
+
+              console.log(namebox, rollbox, sectionbox, btitle, bnumber); // Add this line to log the values
+
+              AddItemsToTable(namebox, rollbox, sectionbox, btitle, bnumber);
+            });
+          });
+      }
+      window.onload = SelectAllData;
+
+      // Filling the table
+      var stdNo = 0;
+      function AddItemsToTable(namebox, rollbox, sectionbox, btitle, bnumber) {
+        var tbody = document.getElementById("tbody1");
+        var trow = document.createElement("tr");
+        var td1 = document.createElement("td");
+        var td2 = document.createElement("td");
+        var td3 = document.createElement("td");
+        var td4 = document.createElement("td");
+        var td5 = document.createElement("td");
+        var td6 = document.createElement("td");
+        td1.innerHTML = ++stdNo;
+        td2.innerHTML = btitle;
+        td3.innerHTML = bnumber;
+        td4.innerHTML = namebox;
+        td5.innerHTML = sectionbox;
+        td6.innerHTML = rollbox;
+
+        console.log(
+          td1.innerHTML,
+          td2.innerHTML,
+          td3.innerHTML,
+          td4.innerHTML,
+          td5.innerHTML,
+          td6.innerHTML
+        ); // Add this line to log the values
+
+        trow.appendChild(td1);
+        trow.appendChild(td2);
+        trow.appendChild(td3);
+        trow.appendChild(td4);
+        trow.appendChild(td5);
+        trow.appendChild(td6);
+        tbody.appendChild(trow);
+      }
+    </script>
+  </body>
+</html>
